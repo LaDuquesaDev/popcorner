@@ -2,7 +2,7 @@ import { Config } from 'react-native-config';
 import { QueryClient } from '@tanstack/react-query';
 import { Movie, MovieDetails, MovieResponse } from '../types/movie';
 
-const API_KEY = Config.TMDB_API_KEY;
+const API_KEY = Config.TMDB_API_KEY || '';
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 console.log('API KEY', API_KEY);
