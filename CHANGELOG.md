@@ -12,3 +12,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial project structure with React Native and TypeScript.
 - `src/` folder created with base folders: `components`, `screens`, `hooks`, `navigation`.
 - `App.tsx` moved to `src/` and connected in `index.js`.
+- Popular movies displayed on Home using TMDB API.
+- Movie types for API response.
