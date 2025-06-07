@@ -5,12 +5,13 @@ import { pixelModerado, pixelVertical } from '../utils/responsive';
 
 interface MovieCardProps {
   movie: Movie;
+  onPress: () => void;
 }
 
-export const MovieCard = ({ movie }: MovieCardProps) => {
+export const MovieCard = ({ movie, onPress }: MovieCardProps) => {
 
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Image
         source={{
           uri: movie.poster_path
