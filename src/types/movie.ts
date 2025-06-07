@@ -9,12 +9,12 @@ export interface Movie {
     genres?: Genre[];
     vote_average: number;
   }
-  
+
   export interface Genre {
     id: number;
     name: string;
   }
-  
+
   export interface Cast {
     id: number;
     name: string;
@@ -22,7 +22,7 @@ export interface Movie {
     profile_path: string | null;
     gender: number;
   }
-  
+
   export interface MovieDetails extends Movie {
     genres: Genre[];
     runtime: number;
@@ -31,14 +31,14 @@ export interface Movie {
       crew: Crew[];
     };
   }
-  
+
   export interface Crew {
     id: number;
     name: string;
     job: string;
     profile_path: string | null;
   }
-  
+
   export interface MovieResponse {
     page: number;
     results: Movie[];

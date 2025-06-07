@@ -1,5 +1,6 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
   ActivityIndicator,
   FlatList,
@@ -15,12 +16,24 @@ import {
   pixelVertical,
   pixelModerado,
 } from '../utils/responsive';
+import { RootStackParamList } from '../types/navigation';
+import { useNavigation } from '@react-navigation/native';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export const Home = () => {
   const popularMoviesQuery = usePopularMovies();
+  const navigation = useNavigation<NavigationProp>();
+
+  const navigateToDetails = (movie: Movie) => {
+    navigation.navigate('MovieDetails', {
+      id: movie.id,
+      title: movie.title,
+    });
+  };
 
   const renderItem = ({ item }: { item: Movie }) => (
-    <MovieCard movie={item} />
+    <MovieCard movie={item} onPress={() => navigateToDetails(item)}/>
   );
 
   const isLoading = popularMoviesQuery.isLoading;
