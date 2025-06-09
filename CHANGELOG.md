@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2025-06-08
+### Added
+- Implemented movie filtering feature on Home screen.
+- Persisted search filter in AsyncStorage to maintain state after app restart.
+
 ## [0.2.0] - 2025-06-07
 ### Added
 - Navigation to a new `MovieDetails` screen for viewing movie information.
@@ -17,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial project structure with React Native and TypeScript.
 - `src/` folder created with base folders: `components`, `screens`, `hooks`, `navigation`.
 - `App.tsx` moved to `src/` and connected in `index.js`.
-- Popular movies displayed on Home using TMDB API.
+- Movies displayed on Home using TMDB API.
 - Movie types for API response.
 - Responsive styles implemented using pixel helpers (`pixelVertical`, `pixelHorizontal`, `pixelModerado`).
 - Styles applied to `MovieCard` component and `Home` screen layout.

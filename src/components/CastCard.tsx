@@ -1,7 +1,8 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import { Cast } from '../types/movie';
+import { Cast } from '../types/interfaces';
 import { pixelHorizontal, pixelVertical, pixelModerado } from '../utils/responsive';
+import { COLORS } from '../constants/colors';
 
 interface CastCardProps {
   actor: Cast;
@@ -45,6 +46,6 @@ const styles = StyleSheet.create({
   },
   character: {
     fontSize: pixelModerado(11),
-    color: '#666',
+    color: COLORS.icon,
   },
 });

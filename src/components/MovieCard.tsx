@@ -1,7 +1,8 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Movie } from '../types/movie';
+import { Movie } from '../types/interfaces';
 import { pixelModerado, pixelVertical } from '../utils/responsive';
+import { COLORS } from '../constants/colors';
 
 interface MovieCardProps {
   movie: Movie;
@@ -34,8 +35,8 @@ const styles = StyleSheet.create({
       width: '48%',
       marginBottom: pixelVertical(16),
       borderRadius: pixelModerado(8),
-      backgroundColor: '#fff',
-      shadowColor: '#000',
+      backgroundColor: COLORS.textButton,
+      shadowColor: COLORS.shadowColor,
       shadowOffset: { width: 0, height: pixelVertical(2) },
       shadowOpacity: 0.1,
       shadowRadius: pixelModerado(4),

@@ -9,33 +9,33 @@ import {
 } from 'react-native';
 import { pixelHorizontal, pixelVertical, pixelModerado } from '../utils/responsive';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../types/navigation';
+import { RootStackParamList } from '../navigation/types';
 import { useMovieDetails } from '../hooks/useMoviesDetails';
 import { CastCard } from '../components/CastCard';
+import { COLORS } from '../constants/colors';
 
 type MovieDetailsProps = NativeStackScreenProps<RootStackParamList, 'MovieDetails'>;
 
 export const MovieDetails = ({ route }: MovieDetailsProps) => {
   const { id } = route.params;
-  const { data: movie, isLoading, isError } = useMovieDetails(id);
+  const { data: movie, isLoading, isError, smartCast } = useMovieDetails(id);
+
 
   if (isLoading) {
-    return (
-      <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#2196F3" />
-      </View>
-    );
-  }
+      return (
+        <View style={styles.centered}>
+          <ActivityIndicator size="large" color="#2196F3" />
+        </View>
+      );
+    }
 
-  if (isError || !movie) {
-    return (
-      <View style={styles.centered}>
-        <Text>Error al cargar los detalles de la película</Text>
-      </View>
-    );
-  }
-
-  const cast = movie.credits?.cast || [];
+    if (isError || !movie) {
+      return (
+        <View style={styles.centered}>
+          <Text style={styles.errorText}>Failed to load movie details.</Text>
+        </View>
+      );
+    }
 
   return (
     <ScrollView style={styles.container}>
@@ -64,40 +64,37 @@ export const MovieDetails = ({ route }: MovieDetailsProps) => {
           ))}
         </View>
 
-        <Text style={styles.sectionTitle}>Sinopsis</Text>
-        <Text style={styles.overview}>{movie.overview || 'No hay sinopsis disponible.'}</Text>
+        {/* Overview Section */}
+        <Text style={styles.sectionTitle}>Synopsis</Text>
+        <Text style={styles.overview}>{movie.overview || 'No synopsis available.'}</Text>
 
-        <Text style={styles.sectionTitle}>Reparto</Text>
+        {/* Cast Section */}
+        <Text style={styles.sectionTitle}>Cast</Text>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.castContainer}
         >
-          {cast.slice(0, 10).map((actor) => (
+          {smartCast.map(actor => (
             <CastCard key={actor.id} actor={actor} />
           ))}
         </ScrollView>
 
+        {/* Movie Stats */}
         <View style={styles.statsContainer}>
           <View style={styles.statItem}>
-            <Text style={styles.statValue}>
-              {movie.vote_average.toFixed(1)}/10
-            </Text>
-            <Text style={styles.statLabel}>Puntuación</Text>
+            <Text style={styles.statValue}>{movie.vote_average.toFixed(1)}/10</Text>
+            <Text style={styles.statLabel}>Rating</Text>
           </View>
 
           <View style={styles.statItem}>
-            <Text style={styles.statValue}>
-              {movie.runtime} min
-            </Text>
-            <Text style={styles.statLabel}>Duración</Text>
+            <Text style={styles.statValue}>{movie.runtime} min</Text>
+            <Text style={styles.statLabel}>Duration</Text>
           </View>
 
           <View style={styles.statItem}>
-            <Text style={styles.statValue}>
-              {new Date(movie.release_date).getFullYear()}
-            </Text>
-            <Text style={styles.statLabel}>Año</Text>
+            <Text style={styles.statValue}>{new Date(movie.release_date).getFullYear()}</Text>
+            <Text style={styles.statLabel}>Year</Text>
           </View>
         </View>
       </View>
@@ -108,12 +105,18 @@ export const MovieDetails = ({ route }: MovieDetailsProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.backgroundInput,
   },
   centered: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  errorText: {
+    color: COLORS.error,
+    fontSize: pixelModerado(14),
+    textAlign: 'center',
+    paddingHorizontal: pixelHorizontal(20),
   },
   header: {
     position: 'relative',
@@ -139,7 +142,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: '#fff',
+    color: COLORS.textButton,
     fontSize: pixelModerado(24),
     fontWeight: 'bold',
     flex: 1,
@@ -156,7 +159,7 @@ const styles = StyleSheet.create({
     marginBottom: pixelVertical(16),
   },
   genreTag: {
-    backgroundColor: '#E3F2FD',
+    backgroundColor: COLORS.filterInfoBackground,
     borderRadius: pixelModerado(16),
     paddingHorizontal: pixelHorizontal(12),
     paddingVertical: pixelVertical(4),
@@ -164,7 +167,7 @@ const styles = StyleSheet.create({
     marginBottom: pixelVertical(8),
   },
   genreText: {
-    color: '#1565C0',
+    color: COLORS.buttonActive,
     fontSize: pixelModerado(12),
   },
   sectionTitle: {
@@ -172,11 +175,12 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: pixelVertical(8),
     marginTop: pixelVertical(16),
+    color: COLORS.inputColor,
   },
   overview: {
     fontSize: pixelModerado(14),
     lineHeight: pixelVertical(20),
-    color: '#333',
+    color: COLORS.inputColor,
   },
   castContainer: {
     paddingVertical: pixelVertical(12),
@@ -188,7 +192,7 @@ const styles = StyleSheet.create({
     marginBottom: pixelVertical(16),
     paddingTop: pixelVertical(16),
     borderTopWidth: 1,
-    borderTopColor: '#eee',
+    borderTopColor: COLORS.placeholder,
   },
   statItem: {
     alignItems: 'center',
@@ -196,10 +200,11 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: pixelModerado(16),
     fontWeight: '600',
+    color: COLORS.inputColor,
   },
   statLabel: {
     fontSize: pixelModerado(12),
-    color: '#666',
+    color: COLORS.icon,
     marginTop: pixelVertical(4),
   },
 });
