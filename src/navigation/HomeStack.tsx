@@ -1,8 +1,8 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Home } from '../screens';
+import { Home } from '../screens/Home';
 import { MovieDetails } from '../screens/MovieDetails';
-import { RootStackParamList } from '../types/navigation';
+import { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -12,7 +12,7 @@ const HomeStack = () => {
       <Stack.Screen
         name="HomeScreen"
         component={Home}
-        options={{ title: 'Películas' }}
+        options={{ title: 'Movies' }}
       />
       <Stack.Screen
         name="MovieDetails"

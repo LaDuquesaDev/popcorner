@@ -1,29 +1,41 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
-  ActivityIndicator,
   FlatList,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import { usePopularMovies } from '../hooks/usePopularMovies';
-import { Movie } from '../types/movie';
+import { Movie } from '../types/interfaces';
 import { MovieCard } from '../components/MovieCard';
 import {
   pixelHorizontal,
   pixelVertical,
   pixelModerado,
 } from '../utils/responsive';
-import { RootStackParamList } from '../types/navigation';
 import { useNavigation } from '@react-navigation/native';
-
-type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+import { NavigationProp } from '../navigation/types';
+import { FilterInput } from '../components/FilterInput';
+import { CustomSpinner } from '../components/CustomSpinner';
+import { COLORS } from '../constants/colors';
+import { useHome } from '../hooks/useHome';
 
 export const Home = () => {
-  const popularMoviesQuery = usePopularMovies();
   const navigation = useNavigation<NavigationProp>();
+  const {
+    filterLetter,
+    setFilterLetter,
+    handleFilterSubmit,
+    handleClearFilter,
+    isFiltering,
+    filteredMovies,
+    isLoading,
+    isError,
+    movies,
+    isEmpty,
+    hasNextPage,
+    fetchNextPage,
+  } = useHome();
 
   const navigateToDetails = (movie: Movie) => {
     navigation.navigate('MovieDetails', {
@@ -33,24 +45,44 @@ export const Home = () => {
   };
 
   const renderItem = ({ item }: { item: Movie }) => (
-    <MovieCard movie={item} onPress={() => navigateToDetails(item)}/>
+    <MovieCard movie={item} onPress={() => navigateToDetails(item)} />
   );
-
-  const isLoading = popularMoviesQuery.isLoading;
-  const isError = popularMoviesQuery.isError;
-
-  const movies =
-    popularMoviesQuery.data?.pages.flatMap((page) => page.results) || [];
 
   return (
     <SafeAreaView style={styles.container}>
+      <FilterInput
+        value={filterLetter}
+        onChangeText={setFilterLetter}
+        onSubmit={handleFilterSubmit}
+      />
+
+      {isFiltering && (
+        <View style={styles.filterInfo}>
+          <Text style={styles.filterText}>
+            Showing movies starting with "{filterLetter.toUpperCase()}" ({filteredMovies.length} found)
+          </Text>
+          <Text style={styles.clearFilter} onPress={handleClearFilter}>
+            Clear filter
+          </Text>
+        </View>
+      )}
+
       {isLoading ? (
         <View style={styles.centered}>
-          <ActivityIndicator size="large" color="#2196F3" />
+          <CustomSpinner />
         </View>
       ) : isError ? (
         <View style={styles.centered}>
-          <Text style={styles.errorText}>Error al cargar las películas</Text>
+          <Text style={styles.errorText}>Error loading movies</Text>
+        </View>
+      ) : isEmpty ? (
+        <View style={styles.centered}>
+          <Text style={styles.emptyText}>
+            {isFiltering
+              ? `No movies found starting with "${filterLetter.toUpperCase()}"`
+              : 'No movies found'
+            }
+          </Text>
         </View>
       ) : (
         <FlatList
@@ -61,25 +93,11 @@ export const Home = () => {
           columnWrapperStyle={styles.row}
           contentContainerStyle={styles.list}
           onEndReached={() => {
-            if (popularMoviesQuery.hasNextPage) {
-              popularMoviesQuery.fetchNextPage();
+            if (!isFiltering && hasNextPage) {
+              fetchNextPage();
             }
           }}
           onEndReachedThreshold={0.5}
-          ListFooterComponent={
-            popularMoviesQuery.isFetchingNextPage ? (
-              <ActivityIndicator
-                size="large"
-                color="#2196F3"
-                style={styles.loader}
-              />
-            ) : null
-          }
-          ListEmptyComponent={
-            <View style={styles.centered}>
-              <Text style={styles.emptyText}>No se encontraron películas</Text>
-            </View>
-          }
         />
       )}
     </SafeAreaView>
@@ -89,7 +107,8 @@ export const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.backgroundInput,
+    marginTop: pixelVertical(-30),
   },
   centered: {
     flex: 1,
@@ -106,17 +125,33 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: pixelVertical(16),
   },
-  loader: {
-    marginVertical: pixelVertical(16),
-  },
   errorText: {
     fontSize: pixelModerado(16),
-    color: '#D32F2F',
+    color: COLORS.error,
     textAlign: 'center',
   },
   emptyText: {
     fontSize: pixelModerado(16),
-    color: '#666',
+    color: COLORS.icon,
     textAlign: 'center',
+  },
+  filterInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: pixelHorizontal(16),
+    paddingVertical: pixelVertical(8),
+    backgroundColor: COLORS.filterInfoBackground,
+  },
+  filterText: {
+    flex: 1,
+    fontSize: pixelModerado(12),
+    color: COLORS.buttonActive,
+  },
+  clearFilter: {
+    fontSize: pixelModerado(12),
+    color: COLORS.buttonActive,
+    fontWeight: '600',
+    marginLeft: pixelHorizontal(8),
   },
 });

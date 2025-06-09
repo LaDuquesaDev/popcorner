@@ -1,14 +1,16 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStack from './HomeStack';
-import { TabParamList } from '../types/navigation';
-import { Home as HomeIcon, Bookmark } from 'react-native-feather';
+import { TabParamList } from './types';
+import { Home } from 'lucide-react-native';
+import { Bookmark } from 'lucide-react-native';
+import { COLORS } from '../constants/colors';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
 const TAB_ICONS = {
-  Home: ({ color, size }: { color: string; size: number }) => <HomeIcon stroke={color} width={size} height={size} />,
-  Bookmarks: ({ color, size }: { color: string; size: number }) => <Bookmark stroke={color} width={size} height={size} />,
+  Home: ({ color, size }: { color: string; size: number }) => <Home color={color} size={size} />,
+  Bookmarks: ({ color, size }: { color: string; size: number }) => <Bookmark color={color} size={size} />,
 };
 
 const renderTabBarIcon = (routeName: keyof typeof TAB_ICONS) => ({ color, size }: { color: string; size: number }) => {
@@ -19,8 +21,8 @@ const renderTabBarIcon = (routeName: keyof typeof TAB_ICONS) => ({ color, size }
 const screenOptions = ({ route }: { route: { name: string } }) => ({
   tabBarIcon: renderTabBarIcon(route.name as keyof typeof TAB_ICONS),
   headerShown: false,
-  tabBarActiveTintColor: '#2196F3',
-  tabBarInactiveTintColor: 'gray',
+  tabBarActiveTintColor: COLORS.buttonActive,
+  tabBarInactiveTintColor: COLORS.shadowColor,
 });
 
 const MainNavigator = () => {
@@ -29,7 +31,7 @@ const MainNavigator = () => {
       <Tab.Screen
         name="Home"
         component={HomeStack}
-        options={{ title: 'Inicio' }}
+        options={{ title: 'Home' }}
       />
     </Tab.Navigator>
   );
