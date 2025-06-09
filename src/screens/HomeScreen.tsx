@@ -20,7 +20,7 @@ import { CustomSpinner } from '../components/CustomSpinner';
 import { COLORS } from '../constants/colors';
 import { useHome } from '../hooks/useHome';
 
-export const Home = () => {
+export const HomeScreen = () => {
   const navigation = useNavigation<NavigationProp>();
   const {
     filterLetter,
@@ -41,6 +41,7 @@ export const Home = () => {
     navigation.navigate('MovieDetails', {
       id: movie.id,
       title: movie.title,
+      from: 'Home',
     });
   };
 

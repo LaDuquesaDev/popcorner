@@ -1,8 +1,11 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Movie } from '../types/interfaces';
-import { pixelModerado, pixelVertical } from '../utils/responsive';
+import { pixelHorizontal, pixelModerado, pixelVertical } from '../utils/responsive';
 import { COLORS } from '../constants/colors';
+import { BookmarkCheck } from 'lucide-react-native';
+import { Bookmark } from 'lucide-react-native';
+import { useWatchlist } from '../store/useWatchlist';
 
 interface MovieCardProps {
   movie: Movie;
@@ -10,6 +13,9 @@ interface MovieCardProps {
 }
 
 export const MovieCard = ({ movie, onPress }: MovieCardProps) => {
+  const { toggleWatchlist, isInWatchlist } = useWatchlist();
+
+  const inWatchlist = isInWatchlist(movie.id);
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
@@ -21,6 +27,13 @@ export const MovieCard = ({ movie, onPress }: MovieCardProps) => {
         }}
         style={styles.poster}
       />
+      <TouchableOpacity onPress={() => toggleWatchlist(movie)} style={styles.bookmark}>
+        {inWatchlist ? (
+          <BookmarkCheck color={COLORS.checked} size={20} />
+        ) : (
+          <Bookmark color={COLORS.backgroundInput} size={20} />
+        )}
+      </TouchableOpacity>
       <View style={styles.infoContainer}>
         <Text style={styles.title} numberOfLines={2}>
           {movie.title}
@@ -58,5 +71,10 @@ const styles = StyleSheet.create({
       flex: 1,
       fontSize: pixelModerado(14),
       fontWeight: '600',
+    },
+    bookmark: {
+      position: 'absolute',
+      top: pixelVertical(8),
+      right: pixelHorizontal(8),
     },
 });

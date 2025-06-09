@@ -9,17 +9,18 @@ import {
 } from 'react-native';
 import { pixelHorizontal, pixelVertical, pixelModerado } from '../utils/responsive';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/types';
+import { HomeStackParamList, WatchlistStackParamList } from '../navigation/types';
 import { useMovieDetails } from '../hooks/useMoviesDetails';
 import { CastCard } from '../components/CastCard';
 import { COLORS } from '../constants/colors';
 
-type MovieDetailsProps = NativeStackScreenProps<RootStackParamList, 'MovieDetails'>;
+type MovieDetailsProps =
+  | NativeStackScreenProps<HomeStackParamList, 'MovieDetails'>
+  | NativeStackScreenProps<WatchlistStackParamList, 'MovieDetails'>;
 
-export const MovieDetails = ({ route }: MovieDetailsProps) => {
+export const MovieDetailsScreen = ({ route }: MovieDetailsProps) => {
   const { id } = route.params;
   const { data: movie, isLoading, isError, smartCast } = useMovieDetails(id);
-
 
   if (isLoading) {
       return (

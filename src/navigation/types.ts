@@ -1,8 +1,17 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-export type RootStackParamList = {
-  HomeScreen: undefined;
-  MovieDetails: { id: number; title: string };
+export type HomeStackParamList = {
+  HomeMain: undefined;
+  MovieDetails: { id: number; title: string; from: string };
+};
+
+export type WatchlistStackParamList = {
+  WatchlistMain: undefined;
+  MovieDetails: {
+    id: number;
+    title: string;
+    from: string;
+  };
 };
 
 export type TabParamList = {
@@ -10,4 +19,5 @@ export type TabParamList = {
   Watchlist: undefined;
 };
 
-export type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+export type NavigationProp = NativeStackNavigationProp<HomeStackParamList>;
+export type WatchlistNavigationProp = NativeStackNavigationProp<WatchlistStackParamList>;
