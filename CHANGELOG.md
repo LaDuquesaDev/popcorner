@@ -34,7 +34,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Navigation to a new `MovieDetails` screen for viewing movie information.
 
-
 ## [0.1.0] - 2025-06-06
 ### Added
 - Initial project structure with React Native and TypeScript.
