@@ -10,4 +10,5 @@ export const COLORS = {
   inputColor: '#333',
   shadowColor: '#000',
   transparent: 'transparent',
+  checked: '#FFB800',
 };

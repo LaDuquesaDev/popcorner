@@ -5,12 +5,13 @@ import { TabParamList } from './types';
 import { Home } from 'lucide-react-native';
 import { Bookmark } from 'lucide-react-native';
 import { COLORS } from '../constants/colors';
+import WatchlistStack from './WatchlistStack';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
 const TAB_ICONS = {
   Home: ({ color, size }: { color: string; size: number }) => <Home color={color} size={size} />,
-  Bookmarks: ({ color, size }: { color: string; size: number }) => <Bookmark color={color} size={size} />,
+  Watchlist: ({ color, size }: { color: string; size: number }) => <Bookmark color={color} size={size} />,
 };
 
 const renderTabBarIcon = (routeName: keyof typeof TAB_ICONS) => ({ color, size }: { color: string; size: number }) => {
@@ -32,6 +33,11 @@ const MainNavigator = () => {
         name="Home"
         component={HomeStack}
         options={{ title: 'Home' }}
+      />
+      <Tab.Screen
+        name="Watchlist"
+        component={WatchlistStack}
+        options={{ title: 'Watchlist' }}
       />
     </Tab.Navigator>
   );

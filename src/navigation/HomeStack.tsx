@@ -1,23 +1,23 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Home } from '../screens/Home';
-import { MovieDetails } from '../screens/MovieDetails';
-import { RootStackParamList } from './types';
+import { HomeScreen } from '../screens/HomeScreen';
+import { MovieDetailsScreen } from '../screens/MovieDetailsScreen';
+import { HomeStackParamList } from './types';
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<HomeStackParamList>();
 
 const HomeStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="HomeScreen"
-        component={Home}
+        name="HomeMain"
+        component={HomeScreen}
         options={{ title: 'Movies' }}
       />
       <Stack.Screen
         name="MovieDetails"
-        component={MovieDetails}
-        options={({ route }) => ({ title: route.params.title })}
+        component={MovieDetailsScreen}
+        options={({ route }) => ({ title: route.params.title, headerShown: true })}
       />
     </Stack.Navigator>
   );
