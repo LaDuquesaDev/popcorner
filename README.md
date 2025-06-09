@@ -1,14 +1,16 @@
 # 🎬 Popcorner App
 
-Una experiencia móvil para los amantes del cine.  
-Explora películas, descubre detalles y crea tu propia lista de películas por ver, todo con un enfoque en calidad de código, arquitectura escalable y una experiencia de usuario cuidada. Este proyecto fue desarrollado como parte de un test técnico para la posición de React Native Developer.
+Una experiencia móvil para los amantes del cine.
+
+Explora películas, descubre detalles y crea tu propia lista de películas por ver, todo con un enfoque en calidad de código, arquitectura escalable y una experiencia de usuario única.
 
 ---
 
 ## 🚀 Objetivo del Proyecto
 
-Esta aplicación móvil fue desarrollada utilizando **React Native CLI**, **TypeScript** y librerías modernas como **React Navigation**, **Zustand** y **TanStack Query**.  
-Su propósito es consumir eficientemente la API pública de **The Movie DB**, permitiendo explorar películas mediante scroll infinito, visualizar detalles, aplicar filtros avanzados por letra y reparto balanceado, y gestionar una lista personalizada de "películas por ver" (watchlist).
+Esta aplicación móvil fue desarrollada utilizando **React Native CLI**, **TypeScript** y librerías modernas como **React Navigation**, **Zustand** y **TanStack Query**.
+
+Su propósito es consumir eficientemente la API pública de **The Movie DB**, permitiendo explorar películas mediante scroll infinito, visualizar detalles, aplicar filtros avanzados por letra y gestionar una lista personalizada de "películas por ver" (watchlist).
 
 ---
 
