@@ -1,51 +1,23 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import {
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {QueryClientProvider} from '@tanstack/react-query';
+import {queryClient} from './services/api';
+import {NavigationContainer} from '@react-navigation/native';
+import { enableScreens } from 'react-native-screens';
+import MainNavigator from './navigation/MainNavigator';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+enableScreens();
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
-    <View style={[backgroundStyle, styles.container]}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <Text style={[styles.title, {color: isDarkMode ? Colors.white : Colors.black}]}>
-        Popcorner
-      </Text>
-    </View>
+    <NavigationContainer>
+      <SafeAreaProvider>
+        <QueryClientProvider client={queryClient}>
+          <MainNavigator />
+        </QueryClientProvider>
+      </SafeAreaProvider>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-  },
-});
 
 export default App;
